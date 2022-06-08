@@ -70,11 +70,12 @@ class _ChangelingProblem:
 
     def enqueue(self, path: Sequence[str]) -> None:
         end = path[-1]
-        if end not in self.marked:
-            self.marked.add(end)
+        if end in self.marked:
+            return
+        self.marked.add(end)
 
         minimum_remaining_distance = sum(
-            int(end[i] == self.target[i]) for i in range(len(self.target))
+            int(end[i] != self.target[i]) for i in range(len(self.target))
         )
         priority = (len(path), minimum_remaining_distance)
         self.queue.put((priority, tuple(path)))
